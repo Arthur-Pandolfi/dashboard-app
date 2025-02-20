@@ -24,7 +24,7 @@ def addInformationInTable(table: str, values: dict) -> str:
     placeholders = ', '.join(['%s'] * len(values))
 
     if table in tables:
-        query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders})"
+        query = f"INSERT INTO {table} ({columns}) VALUES ({placeholders});"
                 
         try: 
             cursor.execute(query, tuple(values.values()))
@@ -46,7 +46,7 @@ def showInformation(table: str, data: tuple, conditionColumn: str, conditionValu
         exit("Table not found")
     else:
         columns = ', '.join(data)
-        query = f"SELECT {columns} FROM {table} WHERE {conditionColumn} = {conditionValue}"
+        query = f"SELECT {columns} FROM {table} WHERE {conditionColumn} = '{conditionValue}';"
 
         cursor.execute(query)
         result = cursor.fetchall()
@@ -60,4 +60,15 @@ def createTable(table: str, columns: tuple) -> None:
     connection = connect()
     cursor = connection.cursor()
     cursor.execute(f"CREATE TABLE IF NOT EXISTS {table} ({columns}) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci")
+    cursor.close()
+
+def dropTable(table: str, waranty: str) -> None:
+    connection = connect()
+    cursor = connection.cursor()
+    if waranty == "YES I WANT TO DROP THIS TABLE":
+        cursor.execute(f"DROP TABLE IF EXISTS {table}")
+        connection.commit()
+    else:
+        exit("Table not dropped, waranty information not provided")
+    connection.close()
     cursor.close()

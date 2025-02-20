@@ -11,4 +11,5 @@ start "" /b "C:\Users\arthu\dashboard-app\commands\startHttpServer.bat"
 cd "C:\users\arthu\dashboard-app\frontend\"
 npm run dev
 
-start "" /b "C:\users\arthu\dashboard-app\backend\python\venv\scripts\activate.bat"
+cd "C:\users\arthur\dashboard-app\backend\python"
+python -m api.app

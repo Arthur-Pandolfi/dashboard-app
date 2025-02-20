@@ -7,6 +7,7 @@ database = os.getenv("DATABASE")
 databaseUser = os.getenv("DATABASE_USER")
 databasePassword = os.getenv("DATABASE_PASSWORD")
 tables = os.getenv("TABLES")
+waranty_message = os.getenv("WARANTY_MESSAGE")
 
 def connect() -> None:
     return mysql.connector.connect(
@@ -65,7 +66,7 @@ def createTable(table: str, columns: tuple) -> None:
 def dropTable(table: str, waranty: str) -> None:
     connection = connect()
     cursor = connection.cursor()
-    if waranty == "YES I WANT TO DROP THIS TABLE":
+    if waranty == waranty_message:
         cursor.execute(f"DROP TABLE IF EXISTS {table}")
         connection.commit()
     else:

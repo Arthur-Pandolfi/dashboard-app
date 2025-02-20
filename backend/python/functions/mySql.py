@@ -38,7 +38,20 @@ def addInformationInTable(table: str, values: dict) -> str:
     else:
         exit("Table not found")
 
-def showInformation(table: str) -> dict:
-    pass
+def showInformation(table: str, data: tuple) -> list:
+    connection = connect()
+    cursor = connection.cursor()
 
-addInformationInTable("teste", {"id": 3, "nome": "Alice"})
+    if table not in tables:
+        exit("Table not found")
+    else:
+        query = f"SELECT {columns} FROM {table}"
+        columns = ', '.join(data)
+
+        cursor.execute(query)
+        result = cursor.fetchall()
+    
+        cursor.close()
+        connection.close()
+
+    return result

@@ -7,4 +7,4 @@ if %errorLevel% neq 0 (
     exit
 )
 
-start "" /b  "C:\Users\arthu\OneDrive\Documentos\repositories\testeAppMae\commands\closeHttpServer.bat"
+start "" /b  "C:\Users\arthu\dashboard-app\commands\closeHttpServer.bat"

@@ -1,11 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  function submitLogin() {
-    console.log("Login efetuado com sucesso");
-    navigate("/home");
+  async function submitLogin() {
+    try {
+      const response = await axios.post("http://localhost:5000/api/login/request", {user: "user123", password: "Password"})
+      console.log(response)
+      
+      } catch (error) {
+        console.log(error)
+    }
+
   }
   return (
     <>
@@ -26,7 +33,7 @@ const Login = () => {
     </>
   );
 };
-
+  
 //Adicionar função de bloquear os campoos e o botão quando houver um request
 
 export default Login;

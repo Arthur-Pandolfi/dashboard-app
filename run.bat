@@ -7,9 +7,6 @@ if %errorLevel% neq 0 (
     exit
 )
 
-start "" /b "C:\Users\arthu\dashboard-app\commands\startHttpServer.bat"
-cd "C:\users\arthu\dashboard-app\frontend\"
-npm run dev
-
-cd "C:\users\arthur\dashboard-app\backend\python"
-python -m api.app
+start "" /b "C:\Users\arthu\OneDrive\Documentos\repositories\dashboard-app\commands\startHttpServer"
+start "" /b "C:\Users\arthu\OneDrive\Documentos\repositories\dashboard-app\commands\startPythonHttpServer.bat"
+start "" /b "C:\Users\arthu\OneDrive\Documentos\repositories\dashboard-app\commands\startReactServer.bat"

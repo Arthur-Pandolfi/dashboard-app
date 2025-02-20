@@ -7,11 +7,6 @@ if %errorLevel% neq 0 (
     exit
 )
 
-:: Inicia o XAMPP Control
-echo Iniciando Xampp...
-start "" "C:\xampp\xampp-control.exe"
-echo Xampp iniciado
-
 :: Inicia o Apache
 echo Iniciando Apache...
 start "" /b "C:\xampp\apache_start.bat"

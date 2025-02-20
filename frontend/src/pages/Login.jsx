@@ -6,7 +6,7 @@ const Login = () => {
   const navigate = useNavigate();
   async function submitLogin() {
     try {
-      const response = await axios.post("http://localhost:5000/api/login/request", {user: "user123", password: "Password"})
+      const response = await axios.get("http://localhost:5000/api/login/request", {user: "user123", password: "Password"})
       console.log(response)
       
       } catch (error) {

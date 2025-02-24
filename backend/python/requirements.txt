@@ -4,3 +4,4 @@ mysql-connector==2.2.9
 python-dotenv==1.0.1
 flask_jwt_extended==4.7.1
 cryptography==44.0.1
+redis==5.2.1

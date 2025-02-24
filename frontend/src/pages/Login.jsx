@@ -2,22 +2,28 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import axios from "axios";
+import { encryptData } from "../utils/encrtpyData";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [userNotFoundErrorIsDisabled, setUserNotFoundErrorIsDisabled] = useState(false);
   const userInput = useRef(null);
   const passwordInput = useRef(null);
+  const backendUrl = "http://localhost:5000";
   async function submitLogin() {
     try {
-      const response = await axios.post("http://localhost:5000/api/login/", {user: userInput.current.value, password: passwordInput.current.value});
+      const aes_key = await axios.get(`${backendUrl}/api/get-aes-key`).then((response) => response.data)
+      console.log(aes_key);
+      const encrtpytedData = encryptData(JSON.stringify({user: userInput.current.value, password: passwordInput.current.value}), aes_key)
+      console.log(encrtpytedData)
+      const response = await axios.post(`${backendUrl}/api/login/`, {data: encrtpytedData});
       
       if (response.data.message === "Login successful") {
         navigate("/home")
       } 
       
       } catch (error) {
-        setIsDisabled(true)
+        setUserNotFoundErrorIsDisabled(true)
         console.log("Usuario não encontrado")
     }
 
@@ -35,7 +41,7 @@ const Login = () => {
             <input className="login__password-input" ref={passwordInput} type="password" placeholder="Password123"/>
             <br/>
             <button className="login__submit-button" type="button" onClick={submitLogin}>Entrar</button>
-            <p className={isDisabled ? "login__error" : "hidden"}>Usuário não encontrado</p>
+            <p className={userNotFoundErrorIsDisabled ? "login__error" : "hidden"}>Usuário não encontrado</p>
           </div>
         </div>
       </div>

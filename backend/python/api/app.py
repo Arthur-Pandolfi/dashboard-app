@@ -1,5 +1,5 @@
 import os
-import json
+import uuid
 import dotenv
 from functions import keyDb
 from functions import mySql
@@ -32,6 +32,7 @@ def get_user():
     if result[0][1] == data["user"] and result[0][2] == data["password"]:
         aes_key = encryption.generate_aes_key()
         acces_token = create_access_token(identity=data["user"], additional_claims={"aes_key": aes_key.hex()})
+        print(acces_token)
         keyDb.store_aes_key(result[0][0], expirationTime, aes_key.hex())
 
         return jsonify(
@@ -42,13 +43,24 @@ def get_user():
         ), 200
 
 
-# Rota para gerar uma chave AES-256 aleatório
-@app.route("/api/get-aes-key", methods=["GET"])
+# Rota para gerar uma chave AES-256-CBC aleatória e armazenar na KeyDB
+@app.route("/api/get-aes-key/store-on-keydb", methods=["POSt"])
 def get_aes_key():
     aes_key = encryption.generate_aes_key()
+    data = request.json
+    keyDb.store_loginInfos(data["ip"], data["loginID"], aes_key.hex(), 10)
     return jsonify(
         {
             "aes_key": aes_key.hex()
+        }
+    ), 200
+
+
+@app.route("/api/generate-id-login", methods=["GET"])
+def generate_id_login():
+    return jsonify(
+        {
+            "id_login": str(uuid.uuid4())
         }
     ), 200
 

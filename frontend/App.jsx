@@ -1,13 +1,17 @@
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './src/pages/Login'
+import RedirectToLogin from './src/pages/RedirectToLogin'
+import RedirectPage from './src/pages/redirectPage'
 
 function App() {
   return (
     <>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login/>} />
+        <Route path="/" element={<RedirectPage/>} />
+        <Route path="/login/" element={<RedirectToLogin/>} />
+        <Route path="/login/:id" element={<Login/>} />
       </Routes>
     </BrowserRouter>
     </>

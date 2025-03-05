@@ -18,18 +18,6 @@ def connect() -> redis.Redis:
 
     return connection
 
-def store_aes_key(user_id: int, expiration_time=int, aes_key=str) -> None:
-    """
-    Função para adicionar uma chave AES-256 ao banco de dados temporário KeyDB
-
-    :param user_id: ID do usuário
-    :param expiration_time: Tempo de expiração da chave AES-256 em segundos
-    :param aes_key: Chave AES-256
-    """
-    connection = connect()
-
-    connection.setex(f"aes_key:{user_id}", expiration_time, aes_key)
-
 def store_loginInfos(ip: str, login_ID: str, aes_key: str, expiration_time: int) -> None:
     """
     Função para adicionar o IP do usuario, o ID de seu Login e sua chave AES-256-CBC ao banco de dados temporário KeyDB

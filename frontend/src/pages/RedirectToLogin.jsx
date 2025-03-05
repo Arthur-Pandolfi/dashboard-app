@@ -10,7 +10,7 @@ const RedirectToLogin = () => {
 
   async function getID() {
     try {
-      const response = await axios.get(`${backendURL}/api/generate-id-login`);
+      const response = await axios.get(`${backendURL}/api/login/generate-id`);
       setID(response.data.id_login);
     } catch (error) {
         setID(error.message);

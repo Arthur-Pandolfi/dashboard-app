@@ -7,25 +7,25 @@ import { encryptData } from "../utils/encrtpytData";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [userNotFoundErrorIsDisabled, setUserNotFoundErrorIsDisabled] = useState(false);
+  const [userNotFoundErrorIsDisabled, setUserNotFoundErrorIsEnabled] = useState(false);
   const userInput = useRef(null);
   const passwordInput = useRef(null);
   const { id } = useParams();
   const backendUrl = "http://localhost:5000";
   async function submitLogin() {
     try {
-      const aes_key = await axios.post(`${backendUrl}/api/get-aes-key/store-on-keydb`, {"ip" : "127.0.0.1", "loginID": id}).then((response) => response.data)
-      console.log(aes_key.aes_key);
-      const encrtpytedData = encryptData(JSON.stringify({user: userInput.current.value, password: passwordInput.current.value}), aes_key)
-      console.log(aes_key)
-      const response = await axios.post(`${backendUrl}/api/login/`, {data: encrtpytedData});
-      
-      if (response.data.message === "Login successful") {
+      const generateAesKeyResponse = await axios.post(`${backendUrl}/api/keyDB/get-and-store-aes-key`, {"ip" : "127.0.0.1", "loginID": id}).then((response) => response.data)
+      const aesKey = generateAesKeyResponse.aes_key
+      console.log(aesKey)
+      const encrtpytedData = encryptData(JSON.stringify({user: userInput.current.value, password: passwordInput.current.value}), aesKey)
+      const loginResponse = await axios.post(`${backendUrl}/api/login/submit-login`, {"data": encrtpytedData, "loginId": id});
+
+      if (loginResponse.data.message === "Login successful") {
         navigate("/home")
       } 
       
       } catch (error) {
-        setUserNotFoundErrorIsDisabled(true)
+        setUserNotFoundErrorIsEnabled(true)
         console.log("Usuario não encontrado")
     }
 

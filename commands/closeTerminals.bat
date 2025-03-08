@@ -7,9 +7,9 @@ if %errorLevel% neq 0 (
     exit
 )
 
-taskkill /F /IM httpd.exe
-taskkill /F /IM mysqld.exe
+taskkill /F /IM powershell.exe
+taskkill /F /IM cmd.exe
 
-echo Apache e MySQL foram encerrados.
+echo Powershell e Cmd Finalizados.
 pause
 exit

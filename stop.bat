@@ -7,4 +7,8 @@ if %errorLevel% neq 0 (
     exit
 )
 
-start "" /b  "C:\Users\arthu\dashboard-app\commands\closeHttpServer.bat"
+cd /d %~dp0
+start "" /b ".\commands\dataBases.bat" close mySql keyDB
+start "" /b ".\commands\backendServer.bat" close
+start "" /b ".\commands\frontendServer.bat" close
+start "" /b  ".\commands\closeTerminals.bat"

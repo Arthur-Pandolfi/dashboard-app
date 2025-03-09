@@ -1,9 +1,10 @@
 import React from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import { encryptData } from "../utils/encrtpytData";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,16 +13,33 @@ const Login = () => {
   const passwordInput = useRef(null);
   const { id } = useParams();
   const backendUrl = "http://localhost:5000";
+  const [IP, setIP] = useState(null);
+
+  // useEffect(() => {
+  //   const ip = getIP();
+  //   setIP(ip);
+  //   console.log(IP)
+  // }, [])
+
+  // async function getIP() {
+  //   try {
+  //     const response = await axios.get("https://api.ipify.org?format=json")
+  //     return response.data.ip
+  //   } catch (error) {
+  //     console.log(error)
+  //     return null
+  //   }
+  // }
+
   async function submitLogin() {
     try {
       const generateAesKeyResponse = await axios.post(`${backendUrl}/api/keyDB/get-and-store-aes-key`, {"ip" : "127.0.0.1", "loginID": id}).then((response) => response.data)
       const aesKey = generateAesKeyResponse.aes_key
-      console.log(aesKey)
       const encrtpytedData = encryptData(JSON.stringify({user: userInput.current.value, password: passwordInput.current.value}), aesKey)
       const loginResponse = await axios.post(`${backendUrl}/api/login/submit-login`, {"data": encrtpytedData, "loginId": id});
 
       if (loginResponse.data.message === "Login successful") {
-        navigate("/home")
+        navigate(`/home/${loginResponse.data.token}`)
       } 
       
       } catch (error) {
@@ -30,6 +48,7 @@ const Login = () => {
     }
 
   }
+
   return (
     <>
       <div className="login__extern-container">
@@ -37,10 +56,10 @@ const Login = () => {
           <h1 className="login__tittle">Login</h1>
           <div className="login__fiels">
             <label className="login__user-label" htmlFor="email">Usuário</label>
-            <input className="login__user-input" ref={userInput} type="email" placeholder="User123"/>
+            <input className="login__user-input" ref={userInput} type="user" placeholder="User123"/>
             <br/>
             <label className="login__password-label" htmlFor="password">Senha</label>
-            <input className="login__password-input" ref={passwordInput} type="password" placeholder="Password123"/>
+            <input className="login__password-input" ref={passwordInput} type="pa:ssword" placeholder="Password123"/>
             <br/>
             <button className="login__submit-button" type="button" onClick={submitLogin}>Entrar</button>
             <p className={userNotFoundErrorIsDisabled ? "login__error" : "hidden"}>Usuário não encontrado</p>

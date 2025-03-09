@@ -17,7 +17,6 @@ export function encryptData(data, aes_key) {
     });
     
     return {
-        iv: iv.toString(CryptoJS.enc.Hex),
-        encryptedData: encrypted.ciphertext.toString(CryptoJS.enc.Hex)
+        encryptedData: iv.toString(CryptoJS.enc.Hex) + encrypted.ciphertext.toString(CryptoJS.enc.Hex)
     }
 }

@@ -1,4 +1,5 @@
 import os
+import json
 import uuid
 import dotenv
 from functions import keyDb
@@ -24,7 +25,8 @@ CORS(app, supports_credentials=True)
 def get_aes_key():
     aes_key = encryption.generate_aes_key()
     data = request.json
-    keyDb.store_loginInfos(data["ip"], data["loginID"], aes_key.hex(), 10)
+    keyDb.store_loginInfos(data["ip"], data["loginID"], aes_key.hex(), 40)
+    print(keyDb.get_loginInfos(data["loginID"]))
     return jsonify(
         {
             "aes_key": aes_key.hex()
@@ -43,26 +45,27 @@ def generate_id_login():
 # Rota para o login
 @app.route('/api/login/submit-login', methods=['POST'])
 def get_user():
+    # Criar Acces Token
     data = request.json
-
-    print(data)
-    exit()
+    dataToDecrypt = data["data"]["encryptedData"]
+    loginInfos = keyDb.get_loginInfos(data["loginId"])
+    aes_key = loginInfos["aes_key"]
+    decryptedData = encryption.decryptData(dataToDecrypt, aes_key)
+    decryptedData = json.loads(decryptedData)
+    
     try:
-        result = mySql.showInformation("users", ("id", "userName", "password"), "userName", data["user"])
-        result[0][1] == data["user"] and result[0][2] == data["password"]
+        result = mySql.showInformation("users", ("id", "userName", "password"), "userName", decryptedData["user"])
+        result[0][1] == decryptedData["user"] and result[0][2] == decryptedData["password"]
+        acces_token = create_access_token(identity=decryptedData["user"], expires_delta=timedelta(hours=2))
+
         return jsonify(
             {
                 "message": "Login successful",
-                # "token": acces_token
+                "token": acces_token
             }
         ), 200
-    except mysql.connector.Error as error:
+    except Exception as error:
         return jsonify({"message": "User not found"}), 404
-
-        # acces_token = create_access_token(identity=data["user"], additional_claims={"aes_key": aes_key.hex()})
-
-       
-
 
 if __name__ == "__main__":
     app.run(debug=True)

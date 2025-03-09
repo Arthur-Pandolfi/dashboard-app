@@ -22,6 +22,20 @@ def decryptData(encrypted_data: str, aes_key: str):
     :return: Dados descriptografados
     """
 
-    encrypted_data_bytes = base64.b64decode(encrypted_data)
+    # Transforma o dado criptografado em bytes, captura o IV e os dados criptografados
+    encrypted_data_bytes = bytes.fromhex(encrypted_data)
+    iv = encrypted_data_bytes[:16] # Pega os primeiros 16 bytes (IV)
+    encrypted_message = encrypted_data_bytes[16:] # Pega os bytes restantes (Dados criptografados)
 
-print(decryptData("5c858275d6f4b39f3226a0ff76f5773892c3f0e28aeab434e95935c233d57257a4cc5aa32ae6f9cd9fb33b013ff640b5", "aes_key"))
+    # Cria o objeto descriptografador usando a chave AES-256-CBC e transforma a chave AES em bytes
+    aes_key_bytes = bytes.fromhex(aes_key)
+    cipher = Cipher(algorithms.AES(aes_key_bytes), modes.CBC(iv))
+    decryptor = cipher.decryptor()
+    decrypted_padded = decryptor.update(encrypted_message) + decryptor.finalize()
+
+    # Remover o Padding (espaço adicionado no texto para completar o bloco de 16 bytes)
+    unpadder = padding.PKCS7(algorithms.AES.block_size).unpadder()
+    decryptted_data = unpadder.update(decrypted_padded) + unpadder.finalize()
+
+    return decryptted_data.decode("utf-8")
+

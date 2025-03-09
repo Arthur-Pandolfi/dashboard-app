@@ -12,6 +12,7 @@ function App() {
         <Route path="/" element={<RedirectPage/>} />
         <Route path="/login/" element={<RedirectToLogin/>} />
         <Route path="/login/:id" element={<Login/>} />
+        <Route path="/home/:id" element={<Home/>} />
       </Routes>
     </BrowserRouter>
     </>

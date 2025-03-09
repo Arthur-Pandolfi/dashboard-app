@@ -1,0 +1,4 @@
+Adicionar função de bloquear os campoos e o botão quando houver um request -> Página Login
+Ajeitar CSS da página de Login
+
+Criar página Home

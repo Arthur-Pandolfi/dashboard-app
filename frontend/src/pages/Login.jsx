@@ -15,25 +15,27 @@ const Login = () => {
   const backendUrl = "http://localhost:5000";
   const [IP, setIP] = useState(null);
 
-  // useEffect(() => {
-  //   const ip = getIP();
-  //   setIP(ip);
-  //   console.log(IP)
-  // }, [])
+  useEffect(() => {
+    async function fetchIP() {
+      const ip = await getIP();
+      setIP(ip);
+    }
+    fetchIP();
+  }, [])
 
-  // async function getIP() {
-  //   try {
-  //     const response = await axios.get("https://api.ipify.org?format=json")
-  //     return response.data.ip
-  //   } catch (error) {
-  //     console.log(error)
-  //     return null
-  //   }
-  // }
+  async function getIP() {
+    try {
+      const response = await axios.get("https://api.ipify.org?format=json")
+      return response.data.ip
+    } catch (error) {
+      console.log(error)
+      return null
+    }
+  }
 
   async function submitLogin() {
     try {
-      const generateAesKeyResponse = await axios.post(`${backendUrl}/api/keyDB/get-and-store-aes-key`, {"ip" : "127.0.0.1", "loginID": id}).then((response) => response.data)
+      const generateAesKeyResponse = await axios.post(`${backendUrl}/api/keyDB/get-and-store-aes-key`, {"ip" : IP, "loginID": id}).then((response) => response.data)
       const aesKey = generateAesKeyResponse.aes_key
       const encrtpytedData = encryptData(JSON.stringify({user: userInput.current.value, password: passwordInput.current.value}), aesKey)
       const loginResponse = await axios.post(`${backendUrl}/api/login/submit-login`, {"data": encrtpytedData, "loginId": id});

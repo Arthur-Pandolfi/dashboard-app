@@ -1,6 +1,6 @@
 import CryptoJS from "crypto-js";
 
-export function encryptData(data, aes_key) {
+export default function encryptData(data, aes_key) {
     /**
      * Função para criptografar os dados usando AES-256 CBC
      * 

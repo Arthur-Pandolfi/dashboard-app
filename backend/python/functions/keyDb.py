@@ -29,12 +29,13 @@ def store_loginInfos(ip: str, login_ID: str, aes_key: str, expiration_time: int)
     """
 
     connection = connect()
-    infosToStore = {
+    dataToStore = {
         "ip": ip,
         "aes_key": aes_key
         }
 
-    connection.setex(f"loginInfos:{login_ID}", expiration_time, json.dumps(infosToStore))
+    connection.setex(f"loginInfos:{login_ID}", expiration_time, json.dumps(dataToStore))
+    connection.close()
 
 def get_loginInfos(login_ID: str):
     """
@@ -44,4 +45,40 @@ def get_loginInfos(login_ID: str):
     """
     connection = connect()
     data = connection.get(f"loginInfos:{login_ID}")
+    connection.close()
+
     return json.loads(data) if data else None
+
+def store_loged_ip(ip: str, acces_token: str, expiration_time: int) -> None:
+    """
+    Função para adicionar o IP do usuário, seu accesToken e chave AES-256-CBC ao banco de dados temporário KeyDB
+
+    :param ip: IP do usuário
+    :param acces_token: acces token do Usuário
+    :param expiration_time: Tempo de expiração do acces token em segundos
+    """
+    
+    connection = connect()
+    dataToStore = {
+        "accesToken": acces_token
+    }
+
+    connection.setex(f"logedIP:{ip}", expiration_time, json.dumps(dataToStore))
+    connection.close()
+
+def get_loged_ip(ip: str) -> bool:
+    """
+    Função para obter se o IP do usuário ja esta logado
+
+    :param ip: IP do usuário
+    """
+
+    connection = connect()
+    data = connection.get(f"logedIP:{ip}")
+    connection.close()
+
+    if data is not None:
+        jsonData = json.loads(data)
+        return True, jsonData['accesToken']
+    else:
+        return False

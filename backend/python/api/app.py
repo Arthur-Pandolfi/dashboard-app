@@ -20,6 +20,7 @@ app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=2)
 jwt = JWTManager(app)
 CORS(app, supports_credentials=True)
 
+# Rotas do keyDB
 # Rota para gerar uma chave AES-256-CBC aleatória e armazenar na KeyDB
 @app.route("/api/keyDB/get-and-store-aes-key", methods=["POST"])
 def get_aes_key():
@@ -34,6 +35,7 @@ def get_aes_key():
     ), 200
 
 # Rotas de Login
+# Rota para gerar o ID do login
 @app.route("/api/login/generate-id", methods=["GET"])
 def generate_id_login():
     return jsonify(
@@ -42,28 +44,49 @@ def generate_id_login():
         }
     ), 200
 
+# Rota para checar se o IP ja está logado
+@app.route("/api/login/ip-alredy-logged", methods=["POST"])
+def ip_already_logged():
+    data = request.json
+    ip = data['ip']
+    userLogged = keyDb.get_loged_ip(ip)
+
+    if userLogged[0]:
+        token = userLogged[1]
+        return jsonify({
+            "logged": "true",
+            "token": token
+        }), 200
+    else:
+        return jsonify({"logged": "false"})
+
+
 # Rota para o login
 @app.route('/api/login/submit-login', methods=['POST'])
-def get_user():
-    # Criar Acces Token
+def submit_login():
     data = request.json
     dataToDecrypt = data["data"]["encryptedData"]
     loginInfos = keyDb.get_loginInfos(data["loginId"])
     aes_key = loginInfos["aes_key"]
     decryptedData = encryption.decryptData(dataToDecrypt, aes_key)
     decryptedData = json.loads(decryptedData)
+    print(decryptedData)
     
     try:
-        result = mySql.showInformation("users", ("id", "userName", "password"), "userName", decryptedData["user"])
-        result[0][1] == decryptedData["user"] and result[0][2] == decryptedData["password"]
-        acces_token = create_access_token(identity=decryptedData["user"], expires_delta=timedelta(hours=2))
+        result = mySql.showInformation("users", ("id", "userName", "password"), "userName", "test")
+        print('abc')
+        if result[0][1] == decryptedData["user"] and result[0][2] == decryptedData["password"]:
+            acces_token = create_access_token(identity=decryptedData["user"], expires_delta=timedelta(hours=2))
+            keyDb.store_loged_ip(data["ip"], acces_token, keyDB_store_time_duration)
 
-        return jsonify(
-            {
-                "message": "Login successful",
-                "token": acces_token
-            }
-        ), 200
+            return jsonify(
+                {
+                    "message": "Login successful",
+                    "token": acces_token
+                }
+            ), 200
+        else:
+            raise Exception
     except Exception as error:
         return jsonify({"message": "User not found"}), 404
 

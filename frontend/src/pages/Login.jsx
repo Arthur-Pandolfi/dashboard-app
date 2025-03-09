@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { encryptData } from "../utils/encrtpytData";
+import encryptData from "../utils/encrtpytData";
 import axios from "axios";
 
 const Login = () => {
@@ -38,7 +38,11 @@ const Login = () => {
       const generateAesKeyResponse = await axios.post(`${backendUrl}/api/keyDB/get-and-store-aes-key`, {"ip" : IP, "loginID": id}).then((response) => response.data)
       const aesKey = generateAesKeyResponse.aes_key
       const encrtpytedData = encryptData(JSON.stringify({user: userInput.current.value, password: passwordInput.current.value}), aesKey)
-      const loginResponse = await axios.post(`${backendUrl}/api/login/submit-login`, {"data": encrtpytedData, "loginId": id});
+      const loginResponse = await axios.post(`${backendUrl}/api/login/submit-login`, {
+        "data": encrtpytedData, 
+        "loginId": id,
+        "ip": IP
+      });
 
       if (loginResponse.data.message === "Login successful") {
         navigate(`/home/${loginResponse.data.token}`)
@@ -50,7 +54,6 @@ const Login = () => {
     }
 
   }
-
   return (
     <>
       <div className="login__extern-container">

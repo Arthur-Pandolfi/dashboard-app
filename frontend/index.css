@@ -1,9 +1,17 @@
+/* Imports */
+/* Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+/* Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 /* Variáveis */
 :root {
   --shade: hsl(0deg 0% 0% / 25%);
   --red-error: hsl(0, 100%, 50%);
   --white-1000: hsl(0deg 0% 100%);
-  --white-950: hsl(0deg 0% 92%);
+  --white-950: hsl(0deg 0% 95%);
+  --white-920: hsl(0deg 0% 92%);
+  --white-870: hsl(0deg 0% 87%);
 }
 
 /* Reset */
@@ -29,8 +37,6 @@ a:hover {
   min-height: 100svh;
 }
 
-
-
 @media screen and (min-width: 1280px) {
   /* Login */
   .login__extern-container {
@@ -53,7 +59,7 @@ a:hover {
     background-image: linear-gradient(
       to bottom,
       var(--white-1000),
-      var(--white-950)
+      var(--white-920)
     );
     border-radius: 15px;
   }
@@ -111,4 +117,86 @@ a:hover {
     color: var(--red-error);
     cursor: default;
   }
+
+  /* Home */
+  .home__global {
+    height: 100vh;
+    display: flex;
+    background-color: var(--shade);
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .home__options {
+    width: 80vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px;
+  }
+
+  .home__options--show_info--button {
+    font-family: inter;
+    font-weight: 200px;
+    font-size: 30px;
+    padding-left: 6px;  
+    padding-right: 6px;
+    padding-top: 6px;  
+    padding-bottom: 6px;
+    border: solid 1px;
+    border-radius: 5px;
+    background-image: linear-gradient(
+      to bottom,
+      var(--white-1000),
+      var(--white-870)
+    );
+  }
+
+  .home__options--add_product--button {
+    font-family: inter;
+    font-weight: 200px;
+    font-size: 30px;
+    padding-left: 6px;  
+    padding-right: 6px;
+    padding-top: 6px;  
+    padding-bottom: 6px;
+    border: solid 1px;
+    border-radius: 5px;
+    background-image: linear-gradient(
+      to bottom,
+      var(--white-1000),
+      var(--white-870)
+    );
+  }
+  
+  .home__options--add_sale--button {
+    font-family: inter;
+    font-weight: 200px;
+    font-size: 30px;
+    padding-left: 6px;  
+    padding-right: 6px;
+    padding-top: 6px;  
+    padding-bottom: 6px;
+    border: solid 1px;
+    border-radius: 5px;
+    background-image: linear-gradient(
+      to bottom,
+      var(--white-1000),
+      var(--white-870)
+    );
+  }
+
+  .home__options--show_info--button:hover {
+    cursor: pointer;
+  }
+
+  .home__options--add_product--button:hover {
+    cursor: pointer;
+  }
+
+  .home__options--add_sale--button:hover {
+    cursor: pointer;
+  }
+
 }

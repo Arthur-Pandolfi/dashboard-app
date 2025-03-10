@@ -72,7 +72,6 @@ def submit_login():
     
     try:
         result = mySql.showInformation("users", ("id", "userName", "password"), "userName", "test")
-        print('abc')
         if result[0][1] == decryptedData["user"] and result[0][2] == decryptedData["password"]:
             acces_token = create_access_token(identity=decryptedData["user"], expires_delta=timedelta(hours=2))
             keyDb.store_loged_ip(data["ip"], acces_token, keyDB_store_time_duration)

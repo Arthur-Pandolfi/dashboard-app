@@ -27,7 +27,6 @@ def get_aes_key():
     aes_key = encryption.generate_aes_key()
     data = request.json
     keyDb.store_loginInfos(data["ip"], data["loginID"], aes_key.hex(), 40)
-    print(keyDb.get_loginInfos(data["loginID"]))
     return jsonify(
         {
             "aes_key": aes_key.hex()
@@ -51,8 +50,8 @@ def ip_already_logged():
     ip = data['ip']
     userLogged = keyDb.get_loged_ip(ip)
 
-    if userLogged[0]:
-        token = userLogged[1]
+    if userLogged:
+        token = keyDb.get_loged_ip(ip)[1]
         return jsonify({
             "logged": "true",
             "token": token
@@ -70,7 +69,6 @@ def submit_login():
     aes_key = loginInfos["aes_key"]
     decryptedData = encryption.decryptData(dataToDecrypt, aes_key)
     decryptedData = json.loads(decryptedData)
-    print(decryptedData)
     
     try:
         result = mySql.showInformation("users", ("id", "userName", "password"), "userName", "test")
@@ -88,7 +86,10 @@ def submit_login():
         else:
             raise Exception
     except Exception as error:
-        return jsonify({"message": "User not found"}), 404
+        return jsonify({
+                "message": "User not found",
+                "error": str(error)
+            }), 202
 
 if __name__ == "__main__":
     app.run(debug=True)

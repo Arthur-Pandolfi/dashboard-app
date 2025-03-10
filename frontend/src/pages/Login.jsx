@@ -8,12 +8,13 @@ import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [userNotFoundErrorIsDisabled, setUserNotFoundErrorIsEnabled] = useState(false);
   const userInput = useRef(null);
   const passwordInput = useRef(null);
-  const { id } = useParams();
   const backendUrl = "http://localhost:5000";
+  const { id } = useParams();
   const [IP, setIP] = useState(null);
+  const [fieldsDisabled, setFieldsDisabled] = useState(false);
+  const [userNotFoundErrorIsDisabled, setUserNotFoundErrorIsEnabled] = useState(false);
 
   useEffect(() => {
     async function fetchIP() {
@@ -38,19 +39,22 @@ const Login = () => {
       const generateAesKeyResponse = await axios.post(`${backendUrl}/api/keyDB/get-and-store-aes-key`, {"ip" : IP, "loginID": id}).then((response) => response.data)
       const aesKey = generateAesKeyResponse.aes_key
       const encrtpytedData = encryptData(JSON.stringify({user: userInput.current.value, password: passwordInput.current.value}), aesKey)
+      setFieldsDisabled(true)
       const loginResponse = await axios.post(`${backendUrl}/api/login/submit-login`, {
         "data": encrtpytedData, 
         "loginId": id,
-        "ip": IP
+        "ip": IP,
       });
-
+      setFieldsDisabled(false)
       if (loginResponse.data.message === "Login successful") {
         navigate(`/home/${loginResponse.data.token}`)
-      } 
+      } else if (loginResponse.data.message === "User not found") {
+        setUserNotFoundErrorIsEnabled(true)
+      }
       
       } catch (error) {
-        setUserNotFoundErrorIsEnabled(true)
-        console.log("Usuario não encontrado")
+        console.log("Server error")
+        console.log(error)
     }
 
   }
@@ -61,13 +65,13 @@ const Login = () => {
           <h1 className="login__tittle">Login</h1>
           <div className="login__fiels">
             <label className="login__user-label" htmlFor="email">Usuário</label>
-            <input className="login__user-input" ref={userInput} type="user" placeholder="User123"/>
+            <input className="login__user-input" ref={userInput} type="email" placeholder="User123"disabled={fieldsDisabled}/>
             <br/>
             <label className="login__password-label" htmlFor="password">Senha</label>
-            <input className="login__password-input" ref={passwordInput} type="pa:ssword" placeholder="Password123"/>
+            <input className="login__password-input" ref={passwordInput} type="pa:ssword" placeholder="Password123" disabled={fieldsDisabled}/>
             <br/>
-            <button className="login__submit-button" type="button" onClick={submitLogin}>Entrar</button>
-            <p className={userNotFoundErrorIsDisabled ? "login__error" : "hidden"}>Usuário não encontrado</p>
+            <button className="login__submit-button" type="button" onClick={submitLogin} disabled={fieldsDisabled}>Entrar</button>
+            <p className={userNotFoundErrorIsDisabled ? "login__error" : "hidden"} >Usuário não encontrado</p>
           </div>
         </div>
       </div>
@@ -75,6 +79,4 @@ const Login = () => {
   );
 };
   
-//Adicionar função de bloquear os campoos e o botão quando houver um request
-
 export default Login;

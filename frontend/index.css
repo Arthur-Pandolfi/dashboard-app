@@ -1,34 +1,37 @@
 /* Variáveis */
 :root {
-    --shade: hsl(0deg 0% 0% / 25%);
-    --red-error: hsl(0, 100%, 50%);
-    --white-1000: hsl(0deg 0% 100%);
-    --white-950: hsl(0deg 0% 92%);
+  --shade: hsl(0deg 0% 0% / 25%);
+  --red-error: hsl(0, 100%, 50%);
+  --white-1000: hsl(0deg 0% 100%);
+  --white-950: hsl(0deg 0% 92%);
 }
 
 /* Reset */
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-  }
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    text-decoration: underline;
-  }
-  
-  #root {
-    font-family: "Montserrat", sans-serif;
-    display: flex;
-    flex-direction: column;
-    min-height: 100svh;
-  }
+a {
+  color: inherit;
+  text-decoration: none;
+}
 
+a:hover {
+  text-decoration: underline;
+}
+
+#root {
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+}
+
+
+
+@media screen and (min-width: 1280px) {
   /* Login */
   .login__extern-container {
     background-color: var(--shade);
@@ -39,7 +42,7 @@
     height: 100vh;
   }
 
-.login__container {
+  .login__container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -47,57 +50,65 @@
     gap: 10px;
     height: 350px;
     width: 290px;
-    background-image: linear-gradient(to bottom, var(--white-1000), var(--white-950));
+    background-image: linear-gradient(
+      to bottom,
+      var(--white-1000),
+      var(--white-950)
+    );
     border-radius: 15px;
-}
+  }
 
-.login__tittle {
+  .login__tittle {
     font-size: 32px;
     font-weight: 600;
-}
+  }
 
-.login__fiels {
+  .login__fiels {
     padding-top: 20px;
     gap: 0px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
+  }
 
-.login__user-label, .login__password-label {
+  .login__user-label,
+  .login__password-label {
     font-weight: 525;
     padding-left: 1px;
-}
+  }
 
-.login__user-input, .login__password-input {
+  .login__user-input,
+  .login__password-input {
     font-family: montserrat;
-    width: 15vw;
+    width: 200px;
     border-radius: 5px;
     border: var(--shade) solid 2px;
     padding: 5px;
-}
+  }
 
-.login__submit-button {
+  .login__submit-button {
     font-family: inter;
     font-weight: 400;
     font-size: 16px;
     border-radius: 5px;
     border: var(--shade) solid 2px;
     padding: 5px;
-}
+  }
 
-.login__submit-button:hover {
+  .login__submit-button:hover {
     cursor: pointer;
-}
+  }
 
-.hidden {
-  opacity: 0;
-  font-size: 1px;
-}
+  .hidden {
+    opacity: 0;
+    font-size: 1px;
+  }
 
-.login__error {
-  opacity: 1;
-  font-size: 20px;
-  padding-top: 10px;
-  color: var(--red-error);
+  .login__error {
+    opacity: 1;
+    font-size:18px;
+    padding-top: 10px;
+    color: var(--red-error);
+    cursor: default;
+  }
 }

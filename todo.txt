@@ -1,4 +1,25 @@
-Adicionar função de bloquear os campoos e o botão quando houver um request -> Página Login
-Ajeitar CSS da página de Login
-
 Criar página Home
+
+Criar função para adicionar produtos
+campos:
+  - Nome do produto
+  - Descrição
+  - Valor
+
+Criar função para digitar vendas
+campos:
+  - Quantidade de produtos vendidos
+  - Nome do cliente
+  - Lugar que o cliente mora
+  - Forma de pagamento (cartão, pix)
+  - Forma que a pessoa te cmahou para a venda (instagram, wathsapp)
+  - Dia/Mês/Anos
+
+Fazer relatório mensal
+features:
+  - Devolver em formato do excel
+  - Devolver em PDF
+  - Devolver um arquivo zipado com as informações em PDF, Arquivo do excel e fotos
+  - Ficar salvo para baixar futuramente
+
+(futuro bem distante) -> adicionar funções de IA para ler essas informações, e dar dicas de como melhorar as vendas

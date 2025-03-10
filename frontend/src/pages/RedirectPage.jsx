@@ -35,15 +35,15 @@ const RedirectPage = () => {
   useEffect(() => {
     async function fetchCheckIp() {
       if (IP) { // Só roda se IP for diferente de null
-        console.log(IP)
         const response = await ipAlredyLogged(IP);
-        console.log(response)
         
         // Redireciona para a Home
         if (response.logged === "true") {
+          console.log("Redirecting to Home page")
           navigate(`/home/${response.token}`)
         } else { // Redireciona para o login
-          navigate(`/login`)
+          console.log("Redirecting to Login page")
+          navigate(`login/`)
         }
       }
     }

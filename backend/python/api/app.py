@@ -71,11 +71,10 @@ def submit_login():
     decryptedData = json.loads(decryptedData)
     
     try:
-        result = mySql.showInformation("users", ("id", "userName", "password"), "userName", "test")
+        result = mySql.showInformationWithWhere("users", ("id", "userName", "password"), "userName", "test")
         if result[0][1] == decryptedData["user"] and result[0][2] == decryptedData["password"]:
             acces_token = create_access_token(identity=decryptedData["user"], expires_delta=timedelta(hours=2))
-            keyDb.store_loged_ip(data["ip"], acces_token, keyDB_store_time_duration)
-
+            keyDb.store_loged_ip(data["ip"], acces_token, result[0][0], keyDB_store_time_duration)
             return jsonify(
                 {
                     "message": "Login successful",
@@ -89,6 +88,26 @@ def submit_login():
                 "message": "User not found",
                 "error": str(error)
             }), 202
+    
+# Rota para mostrar as informações
+@app.route('/api/home/getInformations', methods=['POST'])
+def getInformations():
+    data = request.json
+    ip = data["ip"]
+    data = keyDb.get_loged_ip_data(ip)
+    userID = data["userID"]
+
+    if data == "User has no data":
+        return jsonify({"message": "User has no data"}), 202
+    try:
+        result = mySql.showInformation(userID, ("*"))
+        print(result)
+        return jsonify(data), 200
+    except Exception as error:
+        print(error)
+        return jsonify({"message": "Error in mySql"}), 204
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

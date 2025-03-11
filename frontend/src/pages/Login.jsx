@@ -45,6 +45,8 @@ const Login = () => {
         "loginId": id,
         "ip": IP,
       });
+      const response5 = await axios.post(`${backendUrl}/api/home/getInformations`, {"ip": IP}).then((response) => response.data)
+      console.log(response5)
       setFieldsDisabled(false)
       if (loginResponse.data.message === "Login successful") {
         navigate(`/home/${loginResponse.data.token}`)

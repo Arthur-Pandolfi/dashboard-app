@@ -39,7 +39,25 @@ def addInformationInTable(table: str, values: dict) -> str:
     else:
         exit("Table not found")
 
-def showInformation(table: str, data: tuple, conditionColumn: str, conditionValue: str) -> list:
+def showInformation(table: str, data: tuple) -> list:
+    connection = connect()
+    cursor = connection.cursor()
+
+    if table not in tables:
+        exit("Table not found")
+    else:
+        columns = ', '.join(data)
+        query = f"SELECT {columns} FROM {table};"
+
+        cursor.execute(query)
+        result = cursor.fetchall()
+    
+        cursor.close()
+        connection.close()
+
+    return result
+
+def showInformationWithWhere(table: str, data: tuple, conditionColumn: str, conditionValue: str) -> list:
     connection = connect()
     cursor = connection.cursor()
 

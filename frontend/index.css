@@ -6,7 +6,8 @@
 
 /* Variáveis */
 :root {
-  --shade: hsl(0deg 0% 0% / 25%);
+  --sahde-25: hsl(0deg 0% 0% / 25%);
+  --sahde-10: hsl(0deg 0% 0% / 10%);
   --red-error: hsl(0, 100%, 50%);
   --white-1000: hsl(0deg 0% 100%);
   --white-950: hsl(0deg 0% 95%);
@@ -40,7 +41,7 @@ a:hover {
 @media screen and (min-width: 1280px) {
   /* Login */
   .login__extern-container {
-    background-color: var(--shade);
+    background-color: var(--sahde-25);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -88,7 +89,7 @@ a:hover {
     font-family: montserrat;
     width: 200px;
     border-radius: 5px;
-    border: var(--shade) solid 2px;
+    border: var(--sahde-25) solid 2px;
     padding: 5px;
   }
 
@@ -97,7 +98,7 @@ a:hover {
     font-weight: 400;
     font-size: 16px;
     border-radius: 5px;
-    border: var(--shade) solid 2px;
+    border: var(--sahde-25) solid 2px;
     padding: 5px;
   }
 
@@ -122,7 +123,7 @@ a:hover {
   .home__global {
     height: 100vh;
     display: flex;
-    background-color: var(--shade);
+    background-color: var(--sahde-25);
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -138,6 +139,7 @@ a:hover {
 
   .home__options--show_info--button {
     font-family: inter;
+
     font-weight: 200px;
     font-size: 30px;
     padding-left: 6px;  
@@ -197,6 +199,55 @@ a:hover {
 
   .home__options--add_sale--button:hover {
     cursor: pointer;
+  }
+  
+  /* Information */
+
+  .information__global {
+    background-color: var(--white-920);
+  }
+
+  .information__container--outside {
+    width: 99%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--sahde-10);
+    border: solid 2px var(--sahde-25);
+    border-radius: 5px;
+    margin: 5px;
+    flex-wrap: wrap;
+  }
+
+  .information__container--inside {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .information__id_and_text { 
+    display: flex;
+    flex-direction: row;  
+    padding-left: 10px;
+  }
+
+  .information__information {
+    font-family: inter;
+    padding-left: 20px;
+  }
+
+  .information__text {
+    font-family: inter;
+    background-color: transparent;
+    border: transparent;
+  }
+
+  .information__text:hover {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline; 
   }
 
 }

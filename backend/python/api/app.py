@@ -98,16 +98,21 @@ def getInformations():
     userID = data["userID"]
 
     if data == "User has no data":
+        print("no data")
         return jsonify({"message": "User has no data"}), 202
     try:
-        result = mySql.showInformation(userID, ("*"))
-        print(result)
-        return jsonify(data), 200
+        result = mySql.showInformation(f"informations{userID}", ("*"))
+
+        dataToReturn = {
+            "id": result[0],
+            "name": result[1],
+            "body": result[2]
+        }
+        return jsonify(dataToReturn), 200
     except Exception as error:
         print(error)
+        print('my sql error')
         return jsonify({"message": "Error in mySql"}), 204
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)

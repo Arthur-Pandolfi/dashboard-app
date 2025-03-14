@@ -1,36 +1,22 @@
 import React from 'react'
-import Information from '../components/information'
-import { useState, useRef } from 'react'
-import { useEffect } from 'react'
+import axios from 'axios';
 
 const ShowInformation = () => {
-  const [count, setCount] = useState(1);
-  const ref = useRef(null);
-
-  useEffect(() => {
-    function updateCount() {
-      if (ref.current) {
-        const windowHeight = window.innerHeight;
-        const componentHeight = ref.current.clientHeight || 1;
-        const items = Math.ceil(windowHeight / componentHeight);
-        setCount(items);
-      }
-    };
-
-    updateCount();
-    window.addEventListener('resize', updateCount);
-
-    return() => {window.removeEventListener("resize", updateCount)}
-  }, []
-)
-
-  return (
+  async function download() {
+      const url = 'https://drive.usercontent.google.com/u/0/uc?id=1Qy_DoRdYZWU6AcSeOe2hcoLAN5RcL_wR&export=download';
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'SPIKE_APP.msi'); // Pode ser ignorado se o servidor não suportar
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  };
+  
+  return(
     <>
-      <Information ref={ref} id="1" information="Abc" text="abc"/>
-
-      {Array.from({ length: count - 1}).map((_, index) => (
-        <Information key={index} id="1" information="Abc" text="abc"></Information>
-      ))}
+      <div className="information__global">
+        <button type='button' className="information__download--button" onClick={download}>Download</button>
+      </div>
     </>
   )
 }

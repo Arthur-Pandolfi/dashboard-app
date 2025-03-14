@@ -6,8 +6,9 @@
 
 /* Variáveis */
 :root {
-  --sahde-25: hsl(0deg 0% 0% / 25%);
-  --sahde-10: hsl(0deg 0% 0% / 10%);
+  --shade-35: hsl(0deg 0% 0% / 35%);
+  --shade-25: hsl(0deg 0% 0% / 25%);
+  --shade-10: hsl(0deg 0% 0% / 10%);
   --red-error: hsl(0, 100%, 50%);
   --white-1000: hsl(0deg 0% 100%);
   --white-950: hsl(0deg 0% 95%);
@@ -41,7 +42,7 @@ a:hover {
 @media screen and (min-width: 1280px) {
   /* Login */
   .login__extern-container {
-    background-color: var(--sahde-25);
+    background-color: var(--shade-25);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -89,7 +90,7 @@ a:hover {
     font-family: montserrat;
     width: 200px;
     border-radius: 5px;
-    border: var(--sahde-25) solid 2px;
+    border: var(--shade-25) solid 2px;
     padding: 5px;
   }
 
@@ -98,7 +99,7 @@ a:hover {
     font-weight: 400;
     font-size: 16px;
     border-radius: 5px;
-    border: var(--sahde-25) solid 2px;
+    border: var(--shade-25) solid 2px;
     padding: 5px;
   }
 
@@ -123,7 +124,7 @@ a:hover {
   .home__global {
     height: 100vh;
     display: flex;
-    background-color: var(--sahde-25);
+    background-color: var(--shade-25);
     flex-direction: row;
     align-items: center;
     justify-content: center;
@@ -204,50 +205,32 @@ a:hover {
   /* Information */
 
   .information__global {
-    background-color: var(--white-920);
-  }
-
-  .information__container--outside {
-    width: 99%;
+    height: 100vh;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--sahde-10);
-    border: solid 2px var(--sahde-25);
-    border-radius: 5px;
-    margin: 5px;
-    flex-wrap: wrap;
+    background-image: linear-gradient(
+      to bottom,
+      var(--shade-35),
+      var(--shade-25)
+    );
   }
 
-  .information__container--inside {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  .information__id_and_text { 
-    display: flex;
-    flex-direction: row;  
-    padding-left: 10px;
-  }
-
-  .information__information {
+  .information__download--button {
     font-family: inter;
-    padding-left: 20px;
+    font-weight: 400;
+    font-size: 50px;
+    border-radius: 15px;
+    padding: 10px 10px 10px 10px;
+    border: var(--shade-25) solid 2px;
+    color: white;
+    background-color: black;
   }
 
-  .information__text {
-    font-family: inter;
-    background-color: transparent;
-    border: transparent;
-  }
-
-  .information__text:hover {
+  .information__download--button:hover {
     cursor: pointer;
-    color: blue;
-    text-decoration: underline; 
   }
 
 }

@@ -22,4 +22,11 @@ features:
   - Devolver um arquivo zipado com as informações em PDF, Arquivo do excel e fotos
   - Ficar salvo para baixar futuramente
 
+  Criar função para obter todas as informações
+  features:
+  - Devolver em formato de excel
+  - Devolver em PDF
+  - Devolver um arquivo zipado com as informações em PDF, Arquivo do excel e fotos
+  - Ficar salvo para baixar futuramente
+
 (futuro bem distante) -> adicionar funções de IA para ler essas informações, e dar dicas de como melhorar as vendas
